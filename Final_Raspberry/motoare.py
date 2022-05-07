@@ -1,6 +1,7 @@
 from time import sleep
 from turtle import forward
 import RPi.GPIO as gpio
+
 gpio.setmode(gpio.BCM)
 gpio.setwarnings(False)
  
@@ -18,14 +19,12 @@ class Motor():
         gpio.setup(self.EnaB,gpio.OUT)
         gpio.setup(self.In1B,gpio.OUT)
         gpio.setup(self.In2B,gpio.OUT)
-        self.pwmA = gpio.PWM(self.EnaA, 100)
+        self.pwmA = gpio.PWM(self.EnaA, 15)
         self.pwmA.start(0)
-        self.pwmB = gpio.PWM(self.EnaB, 100)
+        self.pwmB = gpio.PWM(self.EnaB, 15)
         self.pwmB.start(0)
  
-    def move(self,speedL,speedR): # cele mai bune rez pt forward le-am obtinut pt L=0.725 si R=1
-        speedL *=100
-        speedR *=100
+    def move(self,speedL,speedR): 
         if speedL>100: speedL=100
         elif speedL<-100: speedL= -100
         if speedR>100: speedR=100
@@ -49,16 +48,26 @@ class Motor():
             gpio.output(self.In2B,gpio.LOW)
  
         
-    def stop(self):
+    def stop(self,t):
         self.pwmA.ChangeDutyCycle(0)
         self.pwmB.ChangeDutyCycle(0)
-        
+        sleep(t)
  
+#pinii motoarelor
+motor=Motor(12, 17, 22, 13, 23, 24) 
+
+#evenimente in trafic
 def forward():
-    motor.move(0.7,0.7)
+    motor.move(17, 17)
 
-motor=Motor(12,17,22,13,23,24)
+def stop():
+    motor.stop(5)
 
+def right():
+    motor.move(-10,10)
 
-while True:
-    forward()
+def left():
+    motor.move(10, -10)    
+
+def limit():
+    motor.move(8,8)

@@ -43,6 +43,8 @@ class HcSr04:
             print("wait_for_echo(wiringpi.LOW) error")
         return False, 0
 
+
+#########TEST######################
 # hcsr = HcSr04(4, 27)
 # while True:
 #     result, v = hcsr.read()
