@@ -1,4 +1,0 @@
-0 stop
-1 straight ahead
-2 limit60km
-3 turn right
